@@ -76,3 +76,18 @@ def login():
         flash(error)
 
     return render_template("auth/login.html")
+
+
+# Check the session cookie for a logged in user.
+# If there is one, fetch the user object and add it to the apps global scope, g
+# This will run before every view in this bp for any request. like middleware.
+@bp.before_app_request
+def load_logged_in_user():
+    user_id = session.get("user_id")
+
+    if user_id is None:
+        g.user = None
+    else:
+        g.user = (
+            get_db().execute("SELECT * FROM user WHERE id = ?", (user_id,)).fetchone()
+        )
