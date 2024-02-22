@@ -19,3 +19,18 @@ def close_db(e=None):
 
     if db is not None:
         db.close()
+
+
+def init_db():
+    db = get_db()
+
+    # current_app.open_resource opens a file relative to the app package
+    with current_app.open_resource("schema.sql") as f:
+        db.executescript(f.read().decode("utf8"))
+
+
+@click.command("init-db")
+def init_db_command():
+    """Clear the exisiting data and create new tables."""
+    init_db()
+    click.echo("Initialized the database.")
