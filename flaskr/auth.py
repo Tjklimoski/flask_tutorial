@@ -45,7 +45,8 @@ def register():
             else:
                 return redirect(url_for("auth.login"))
 
+        # flash() stores the error message where it can be retrieved when rendering the template
         flash(error)
 
-    # handles the GET request:
+    # handles the GET request, and validation errors:
     return render_template("auth/register.html")
