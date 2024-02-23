@@ -42,6 +42,8 @@ def test_login(client, auth):
     response = auth.login()
     assert response.headers["Location"] == "/"
 
+    # Using client in a with block allows for accessing context variables like session
+    # normally accessing session outside of a request would raise an error
     with client:
         client.get("/")
         assert session["user_id"] == 1
@@ -58,3 +60,12 @@ def test_login(client, auth):
 def test_login_validate_input(auth, username, password, message):
     response = auth.login(username, password)
     assert message in response.data
+
+
+# Check logout removes user_id from session
+def test_logout(client, auth):
+    auth.login()
+
+    with client:
+        auth.logout()
+        assert "user_id" not in session
