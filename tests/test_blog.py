@@ -12,7 +12,7 @@ def test_index(client, auth):
     response = client.get("/")
     assert b"Log Out" in response.data
     assert b"test title" in response.data
-    assert b"by test on 2018-01-01" in response.data
+    assert b"by test on 01-01-2018" in response.data
     assert b"test\nbody" in response.data
     assert b'href="/1/update"' in response.data
 
@@ -93,6 +93,9 @@ def test_create_update_validate(client, auth, path):
     auth.login()
     response = client.post(path, data={"title": "", "body": ""})
     assert b"Title is required" in response.data
+
+    response = client.post(path, data={"title": "has title", "body": ""})
+    assert b"Body is required" in response.data
 
 
 def test_delete(client, auth, app):

@@ -31,7 +31,7 @@ def create():
 
         if not title:
             error = "Title is required"
-        if not body:
+        if not body and error is None:
             error = "Body is required"
 
         if error is not None:
@@ -83,7 +83,7 @@ def update(id):
 
         if not title:
             error = "Title is required"
-        if not body:
+        if not body and error is None:
             error = "Body is required"
 
         if error is not None:
