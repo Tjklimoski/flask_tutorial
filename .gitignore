@@ -1,4 +1,5 @@
 # pulled from github https://github.com/github/gitignore/blob/main/Python.gitignore
+*.md
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
